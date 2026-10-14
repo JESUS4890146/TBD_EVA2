@@ -1,0 +1,256 @@
+[jisus@linuxjisus ~]$ sudo mysql
+[sudo] contraseña para jisus: 
+mysql: Deprecated program name. It will be removed in a future release, use '/usr/bin/mariadb' instead
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 3
+Server version: 12.3.2-MariaDB Arch Linux
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| repasoU1           |
+| sakila             |
+| sys                |
+| t1                 |
+| t1_copia           |
+| t2                 |
+| tbd_exa1           |
+| test               |
+| world              |
++--------------------+
+12 rows in set (0.212 sec)
+
+MariaDB [(none)]> use t2;
+Database changed
+MariaDB [t2]> show tables;
+Empty set (0.001 sec)
+
+MariaDB [t2]> use t1;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [t1]> show tables;
++--------------------+
+| Tables_in_t1       |
++--------------------+
+| Persona            |
+| copia_Persona      |
+| copia_actor        |
+| cust               |
+| customer2          |
+| empleado           |
+| item               |
+| matricula          |
+| ordenes            |
+| persona_datos      |
+| persona_datos2     |
+| persona_modificada |
+| playera            |
+| tablaA             |
+| tablaB             |
+| vehiculo           |
+| vehiculo2          |
++--------------------+
+17 rows in set (0.001 sec)
+
+MariaDB [t1]> use t2;
+Database changed
+MariaDB [t2]> create table cliente(
+    -> id_cliente int not null key auto_increment,
+    -> nombre varchar(50) not null,
+    -> apellidos varchar(50) not null,
+    -> fecha_nac date);
+Query OK, 0 rows affected (0.245 sec)
+
+MariaDB [t2]> insert into cliente(nombre,apellidos,fecha_nac)
+    -> values('juan','perez','1979-05-06'),('juan','mata','1979-05-06'),('juan','meza','1979-05-06');
+Query OK, 3 rows affected (0.247 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+MariaDB [t2]> select*from cliente;
++------------+--------+-----------+------------+
+| id_cliente | nombre | apellidos | fecha_nac  |
++------------+--------+-----------+------------+
+|          1 | juan   | perez     | 1979-05-06 |
+|          2 | juan   | mata      | 1979-05-06 |
+|          3 | juan   | meza      | 1979-05-06 |
++------------+--------+-----------+------------+
+3 rows in set (0.000 sec)
+
+MariaDB [t2]> create table ventas(
+    -> id_venta int not null key auto_increment,
+    -> id_cliente int not null,
+    -> fecha_venta date);
+Query OK, 0 rows affected (0.201 sec)
+
+MariaDB [t2]> insert into ventas(id_cliente,fecha_venta)
+    -> values(1,'2026-10-13'),(1,'2026-9-10'),(2,'2025-9-10'),(7,'2026-7-9');
+Query OK, 4 rows affected (0.275 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+MariaDB [t2]> select*from ventas;
++----------+------------+-------------+
+| id_venta | id_cliente | fecha_venta |
++----------+------------+-------------+
+|        1 |          1 | 2026-10-13  |
+|        2 |          1 | 2026-09-10  |
+|        3 |          2 | 2025-09-10  |
+|        4 |          7 | 2026-07-09  |
++----------+------------+-------------+
+4 rows in set (0.001 sec)
+
+MariaDB [t2]> select *from cliente
+    -> where id_cliente in(select distinct(id_cliente) from venta);
+ERROR 1146 (42S02): Table 't2.venta' doesn't exist
+MariaDB [t2]> select *from cliente where id_cliente in (select distinct(id_cliente) from venta);
+ERROR 1146 (42S02): Table 't2.venta' doesn't exist
+MariaDB [t2]> select *from cliente where id_cliente in (select distinct(id_cliente) from ventas);
++------------+--------+-----------+------------+
+| id_cliente | nombre | apellidos | fecha_nac  |
++------------+--------+-----------+------------+
+|          1 | juan   | perez     | 1979-05-06 |
+|          2 | juan   | mata      | 1979-05-06 |
++------------+--------+-----------+------------+
+2 rows in set (0.001 sec)
+
+MariaDB [t2]> select *from cliente where id_cliente not in (select distinct(id_cliente) from ventas);
++------------+--------+-----------+------------+
+| id_cliente | nombre | apellidos | fecha_nac  |
++------------+--------+-----------+------------+
+|          3 | juan   | meza      | 1979-05-06 |
++------------+--------+-----------+------------+
+1 row in set (0.002 sec)
+
+MariaDB [t2]> desc cliente;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| id_cliente | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nombre     | varchar(50) | NO   |     | NULL    |                |
+| apellidos  | varchar(50) | NO   |     | NULL    |                |
+| fecha_nac  | date        | YES  |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+4 rows in set (0.002 sec)
+
+MariaDB [t2]> select*from venta
+    -> where id_cliente=1;1
+ERROR 1146 (42S02): Table 't2.venta' doesn't exist
+    -> select*from ventas where id_cliente=1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '1
+select*from ventas where id_cliente=1' at line 1
+MariaDB [t2]> select*from ventas where id_cliente=1;
++----------+------------+-------------+
+| id_venta | id_cliente | fecha_venta |
++----------+------------+-------------+
+|        1 |          1 | 2026-10-13  |
+|        2 |          1 | 2026-09-10  |
++----------+------------+-------------+
+2 rows in set (0.001 sec)
+
+MariaDB [t2]> delete from cliente 
+    -> where id_cliente=1;
+Query OK, 1 row affected (0.045 sec)
+
+MariaDB [t2]> insert into cliente(nombre,apellidos,fecha_nac)
+    -> values^C
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
+MariaDB [t2]> insert into cliente
+    -> value(1,'juan',perez','1970-11-20');
+    '> 
+    '> ;
+    '> ^C
+    '> ^C
+    '> ^C
+    '> 
+[1]+  Detenido                   sudo mysql
+[jisus@linuxjisus ~]$ sudo mysql
+[sudo] contraseña para jisus: 
+mysql: Deprecated program name. It will be removed in a future release, use '/usr/bin/mariadb' instead
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 4
+Server version: 12.3.2-MariaDB Arch Linux
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use t2;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [t2]> drop tables ventas;
+Query OK, 0 rows affected (0.164 sec)
+
+MariaDB [t2]> create table ventas(id_venta int not null key auto_increment,id_cliente int not null references cliente(id_cliente), fecha_venta date);
+Query OK, 0 rows affected (0.228 sec)
+
+MariaDB [t2]> insert into ventas(id_cliente,fecha_venta)
+    -> value(1,'2026-10-12');
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`t2`.`ventas`, CONSTRAINT `1` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`))
+MariaDB [t2]> insert into cliente
+    -> value(1,'juan','perez','1970-10-10');
+Query OK, 1 row affected (0.045 sec)
+
+MariaDB [t2]> insert into ventas(id_cliente,fecha_venta) value(1,'2026-10-12');
+Query OK, 1 row affected (0.022 sec)
+
+MariaDB [t2]> select*from ventas;
++----------+------------+-------------+
+| id_venta | id_cliente | fecha_venta |
++----------+------------+-------------+
+|        2 |          1 | 2026-10-12  |
++----------+------------+-------------+
+1 row in set (0.001 sec)
+
+MariaDB [t2]> drop table ventas;
+Query OK, 0 rows affected (0.120 sec)
+
+MariaDB [t2]> create table ventas(id_venta int not null key auto_increment,foreign key (id_cliente) int not null references cliente(id_cliente), fecha_venta date);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'int not null references cliente(id_cliente), fecha_venta date)' at line 1
+MariaDB [t2]> create table ventas(id_venta int not null key auto_increment,foreign key (id_cliente) references cliente(id_cliente), fecha_venta date);
+ERROR 1072 (42000): Key column 'id_cliente' doesn't exist in table
+MariaDB [t2]> create table ventas(id_venta int not null key auto_increment,foreign key (id_cliente) references cliente(id_cliente), fecha_venta date);
+ERROR 1072 (42000): Key column 'id_cliente' doesn't exist in table
+MariaDB [t2]> create table ventas(id_venta int not null key auto_increment,id_cliente int not null,foreign key (id_cliente) references cliente(id_cliente), fecha_venta date);
+Query OK, 0 rows affected (0.184 sec)
+
+MariaDB [t2]> show create ventas;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'ventas' at line 1
+MariaDB [t2]> insert into ventas(id_cliente,fecha_venta) values(1,'2026-10-12'),(7,'2026-10-9');
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`t2`.`ventas`, CONSTRAINT `1` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`))
+MariaDB [t2]> selec*from cliente;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'selec*from cliente' at line 1
+MariaDB [t2]> select*from cliente;
++------------+--------+-----------+------------+
+| id_cliente | nombre | apellidos | fecha_nac  |
++------------+--------+-----------+------------+
+|          1 | juan   | perez     | 1970-10-10 |
+|          2 | juan   | mata      | 1979-05-06 |
+|          3 | juan   | meza      | 1979-05-06 |
++------------+--------+-----------+------------+
+3 rows in set (0.001 sec)
+
+MariaDB [t2]> insert into ventas(id_cliente,fecha_venta) values(1,'2026-10-12'),(2,'2026-10-9');
+Query OK, 2 rows affected (0.018 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+MariaDB [t2]> delete from cliente
+    -> where id_cliente=1;
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`t2`.`ventas`, CONSTRAINT `1` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`))
+MariaDB [t2]> update cliente
+    -> set 
+    -> id_cliente=5
+    -> where id_cliente=1;
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`t2`.`ventas`, CONSTRAINT `1` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`))
+MariaDB [t2]> 
