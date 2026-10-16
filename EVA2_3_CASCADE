@@ -1,0 +1,304 @@
+	isus@linuxjisus ~]$ sudo mysql
+[sudo] contraseña para jisus: 
+mysql: Deprecated program name. It will be removed in a future release, use '/usr/bin/mariadb' instead
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 3
+Server version: 12.3.2-MariaDB Arch Linux
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use t2;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [t2]> select*from cliente;
++------------+--------+-----------+------------+
+| id_cliente | nombre | apellidos | fecha_nac  |
++------------+--------+-----------+------------+
+|          1 | juan   | perez     | 1970-10-10 |
+|          2 | juan   | mata      | 1979-05-06 |
+|          3 | juan   | meza      | 1979-05-06 |
++------------+--------+-----------+------------+
+3 rows in set (0.106 sec)
+
+MariaDB [t2]> select*from venta;
+ERROR 1146 (42S02): Table 't2.venta' doesn't exist
+MariaDB [t2]> select*from ventas;
++----------+------------+-------------+
+| id_venta | id_cliente | fecha_venta |
++----------+------------+-------------+
+|        3 |          1 | 2026-10-12  |
+|        4 |          2 | 2026-10-09  |
++----------+------------+-------------+
+2 rows in set (0.001 sec)
+
+MariaDB [t2]> alter table ventas 
+    -> drop constraint;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 2
+MariaDB [t2]> show create table ventas;
++--------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table  | Create Table                                                                                                                                                                                                                                                                                                                                                                 |
++--------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| ventas | CREATE TABLE `ventas` (
+  `id_venta` int(11) NOT NULL AUTO_INCREMENT,
+  `id_cliente` int(11) NOT NULL,
+  `fecha_venta` date DEFAULT NULL,
+  PRIMARY KEY (`id_venta`),
+  KEY `id_cliente` (`id_cliente`),
+  CONSTRAINT `1` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci |
++--------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.000 sec)
+
+MariaDB [t2]> alter table ventas  drop constraint 1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '1' at line 1
+MariaDB [t2]> alter table ventas  drop constraint 1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '1' at line 1
+MariaDB [t2]> alter table ventas  drop constraint '1';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''1'' at line 1
+MariaDB [t2]> alter table ventas
+    -> add foreign key id_cliente
+    -> references cliente(id_cliente)
+    -> on delete cascade
+    -> on update cascade;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'references cliente(id_cliente)
+on delete cascade
+on update cascade' at line 3
+MariaDB [t2]> ALTER TABLE ventas DROP CONSTRAINT `1`;
+Query OK, 0 rows affected (0.366 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [t2]> alter table ventas add foreign key id_cliente references cliente(id_cliente) on delete cascade on update cascade;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'references cliente(id_cliente) on delete cascade on update cascade' at line 1
+MariaDB [t2]> alter table ventas add foreign key (id_cliente) references cliente(id_cliente) on delete cascade on update cascade;
+Query OK, 2 rows affected (0.297 sec)                      
+Records: 2  Duplicates: 0  Warnings: 0
+
+MariaDB [t2]> select *from venta;
+ERROR 1146 (42S02): Table 't2.venta' doesn't exist
+MariaDB [t2]> select *from ventas;
++----------+------------+-------------+
+| id_venta | id_cliente | fecha_venta |
++----------+------------+-------------+
+|        3 |          1 | 2026-10-12  |
+|        4 |          2 | 2026-10-09  |
++----------+------------+-------------+
+2 rows in set (0.001 sec)
+
+MariaDB [t2]> delete from cliente
+    -> where id_cliente=1;
+Query OK, 1 row affected (0.047 sec)
+
+MariaDB [t2]> select *from ventas;
++----------+------------+-------------+
+| id_venta | id_cliente | fecha_venta |
++----------+------------+-------------+
+|        4 |          2 | 2026-10-09  |
++----------+------------+-------------+
+1 row in set (0.001 sec)
+
+MariaDB [t2]> update cliente 
+    -> set 
+    -> id_cliente = 5
+    -> where id_cliente=2;
+Query OK, 1 row affected (0.036 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [t2]> select*from cliente;
++------------+--------+-----------+------------+
+| id_cliente | nombre | apellidos | fecha_nac  |
++------------+--------+-----------+------------+
+|          3 | juan   | meza      | 1979-05-06 |
+|          5 | juan   | mata      | 1979-05-06 |
++------------+--------+-----------+------------+
+2 rows in set (0.001 sec)
+
+MariaDB [t2]> select*from ventas;
++----------+------------+-------------+
+| id_venta | id_cliente | fecha_venta |
++----------+------------+-------------+
+|        4 |          5 | 2026-10-09  |
++----------+------------+-------------+
+1 row in set (0.001 sec)
+
+MariaDB [t2]> create table productos(
+    -> id_producto int not null key auto_increment,
+    -> nombre varchar(50) not null,
+    -> precio double not null,
+    -> unidad varchar(10) not null);
+Query OK, 0 rows affected (0.176 sec)
+
+MariaDB [t2]> desc productos;
++-------------+-------------+------+-----+---------+----------------+
+| Field       | Type        | Null | Key | Default | Extra          |
++-------------+-------------+------+-----+---------+----------------+
+| id_producto | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nombre      | varchar(50) | NO   |     | NULL    |                |
+| precio      | double      | NO   |     | NULL    |                |
+| unidad      | varchar(10) | NO   |     | NULL    |                |
++-------------+-------------+------+-----+---------+----------------+
+4 rows in set (0.002 sec)
+
+MariaDB [t2]> insert into productos(nombre,precio,unidad)
+    -> values('playera',5000,'pieza'),('pantalon',2000,'pieza),
+    '> ('short',56789,'pieza'),('tenis',9099,'pares');
+    '> 
+    '> 
+[1]+  Detenido                   sudo mysql
+[jisus@linuxjisus ~]$ sudo mysql
+[sudo] contraseña para jisus: 
+mysql: Deprecated program name. It will be removed in a future release, use '/usr/bin/mariadb' instead
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 4
+Server version: 12.3.2-MariaDB Arch Linux
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use t2;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [t2]> insert into productos(nombre,precio,unidad)values('playera',5000,'pieza'),('pantalon',2000,'pieza'),('short',56789,'pieza'),('tenis',9099,'pares');
+Query OK, 4 rows affected (0.037 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+MariaDB [t2]> create table venta_detalle(
+    -> id_venta_det int not null key auto_increment,
+    -> id_venta int not null,
+    -> id_producto int not null,
+    -> cantidad int not null,
+    -> foreign key(id_venta) references ventas(id_venta)
+    -> on update cascade
+    -> on delete cascade
+    -> foreign key(id_producto) references productos(id_producto)
+    -> on update cascade
+    -> on delete cascade;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'foreign key(id_producto) references productos(id_producto)
+on update cascade
+...' at line 9
+MariaDB [t2]> create table venta_detalle(id_venta_det int not null key auto_increment,id_venta int not null,id_producto int not null,cantidad int not null,foreign key(id_venta) references ventas(id_venta)on update cascadeon delete cascade,foreign key(id_producto) references productos(id_producto)on update cascadeon delete cascade,
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'cascadeon delete cascade,foreign key(id_producto) references productos(id_pro...' at line 1
+MariaDB [t2]> create table venta_detalle(id_venta_det int not null key auto_increment,id_venta int not null,id_producto int not null,cantidad int not null,foreign key(id_venta) references ventas(id_venta)on update cascadeon delete cascade,foreign key(id_producto) references productos(id_producto)on update cascadeon delete cascade;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'cascadeon delete cascade,foreign key(id_producto) references productos(id_pro...' at line 1
+MariaDB [t2]> create table venta_detalle(id_venta_det int not null key auto_increment,id_venta int not null,id_producto int not null,cantidad int not null,foreign key(id_venta) references ventas(id_venta)on update cascadeon delete cascade,foreign key(id_productos) references productos(id_productos)on update cascadeon delete cascade,
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'cascadeon delete cascade,foreign key(id_productos) references productos(id_pr...' at line 1
+MariaDB [t2]> create table venta_detalle(id_venta_det int not null key auto_increment,id_venta int not null,id_producto int not null,cantidad int not null,foreign key(id_venta) references ventas(id_venta)on update cascadeon delete cascade,foreign key(id_productos) references productos(id_productos)on update cascadeon delete cascade;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'cascadeon delete cascade,foreign key(id_productos) references productos(id_pr...' at line 1
+MariaDB [t2]> create table venta_detalle(id_venta_det int not null key auto_increment,id_venta int not null,id_producto int not null,cantidad int not null,foreign key(id_venta) references ventas(id_venta)on update cascadeon delete cascade,foreign key(id_productos) references productos(id_productos)on update cascadeon delete cascade);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'cascadeon delete cascade,foreign key(id_productos) references productos(id_pr...' at line 1
+MariaDB [t2]> create table venta_detalle(id_venta_det int not null key auto_increment,id_venta int not null,id_producto int not null,cantidad int not null,foreign key(id_venta) references ventas(id_venta)on update cascadeon delete cascade,foreign key(id_productos) references productos(id_productos)on update cascadeon delete cascade);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'cascadeon delete cascade,foreign key(id_productos) references productos(id_pr...' at line 1
+MariaDB [t2]> CREATE TABLE venta_detalle (    id_venta_det INT NOT NULL PRIMARY KEY AUTO_INCREMENT,    id_venta INT NOT NULL,    id_producto INT NOT NULL,    cantidad INT NOT NULL,    FOREIGN KEY(id_venta) REFERENCES ventas(id_venta)        ON UPDATE CASCADE        ON DELETE CASCADE,    FOREIGN KEY(id_producto) REFERENCES productos(id_producto)        ON UPDATE CASCADE        ON DELETE CASCADE);
+Query OK, 0 rows affected (0.422 sec)
+
+MariaDB [t2]> select*from ventas;
++----------+------------+-------------+
+| id_venta | id_cliente | fecha_venta |
++----------+------------+-------------+
+|        4 |          5 | 2026-10-09  |
++----------+------------+-------------+
+1 row in set (0.001 sec)
+
+MariaDB [t2]> desc venta_detalle;
++--------------+---------+------+-----+---------+----------------+
+| Field        | Type    | Null | Key | Default | Extra          |
++--------------+---------+------+-----+---------+----------------+
+| id_venta_det | int(11) | NO   | PRI | NULL    | auto_increment |
+| id_venta     | int(11) | NO   | MUL | NULL    |                |
+| id_producto  | int(11) | NO   | MUL | NULL    |                |
+| cantidad     | int(11) | NO   |     | NULL    |                |
++--------------+---------+------+-----+---------+----------------+
+4 rows in set (0.001 sec)
+
+MariaDB [t2]> insert into venta_detalle(id_venta,id_productos,cantidad)
+    -> values(1,1,1),(2,2,2),(3,3,3);
+ERROR 1054 (42S22): Unknown column 'id_productos' in 'INSERT INTO'
+MariaDB [t2]> insert into venta_detalle(id_venta,id_producto,cantidad) values(1,1,1),(2,2,2),(3,3,3);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`t2`.`venta_detalle`, CONSTRAINT `1` FOREIGN KEY (`id_venta`) REFERENCES `ventas` (`id_venta`) ON DELETE CASCADE ON UPDATE CASCADE)
+MariaDB [t2]> insert into venta_detalle(id_venta,id_producto,cantidad) values(4,1,1);
+Query OK, 1 row affected (0.272 sec)
+
+MariaDB [t2]> select*from detalle_venta;
+ERROR 1146 (42S02): Table 't2.detalle_venta' doesn't exist
+MariaDB [t2]> select*from venta_detalle;
++--------------+----------+-------------+----------+
+| id_venta_det | id_venta | id_producto | cantidad |
++--------------+----------+-------------+----------+
+|            4 |        4 |           1 |        1 |
++--------------+----------+-------------+----------+
+1 row in set (0.001 sec)
+
+MariaDB [t2]> select*from ventas where id_cliente=5;
++----------+------------+-------------+
+| id_venta | id_cliente | fecha_venta |
++----------+------------+-------------+
+|        4 |          5 | 2026-10-09  |
++----------+------------+-------------+
+1 row in set (0.001 sec)
+
+MariaDB [t2]> select*from venta_detalle 
+    -> where id_venta=4;
++--------------+----------+-------------+----------+
+| id_venta_det | id_venta | id_producto | cantidad |
++--------------+----------+-------------+----------+
+|            4 |        4 |           1 |        1 |
++--------------+----------+-------------+----------+
+1 row in set (0.001 sec)
+
+MariaDB [t2]> delete from cliente 
+    -> where id_cliente=5;
+Query OK, 1 row affected (0.279 sec)
+
+MariaDB [t2]> select*from cliente;
++------------+--------+-----------+------------+
+| id_cliente | nombre | apellidos | fecha_nac  |
++------------+--------+-----------+------------+
+|          3 | juan   | meza      | 1979-05-06 |
++------------+--------+-----------+------------+
+1 row in set (0.001 sec)
+
+MariaDB [t2]> select*from ventas;
+Empty set (0.001 sec)
+
+MariaDB [t2]> select*from venta_detalle;
+Empty set (0.001 sec)
+
+MariaDB [t2]> update cliente 
+    -> set id_cliente = 6
+    -> where id_cliente=3;
+Query OK, 1 row affected (0.179 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [t2]> select*from ventas;
+Empty set (0.001 sec)
+
+MariaDB [t2]> select*from venta_detalle;
+Empty set (0.001 sec)
+
+MariaDB [t2]> select*from productos;
++-------------+----------+--------+--------+
+| id_producto | nombre   | precio | unidad |
++-------------+----------+--------+--------+
+|           1 | playera  |   5000 | pieza  |
+|           2 | pantalon |   2000 | pieza  |
+|           3 | short    |  56789 | pieza  |
+|           4 | tenis    |   9099 | pares  |
++-------------+----------+--------+--------+
+4 rows in set (0.001 sec)
+
+MariaDB [t2]> delete from productos 
+    -> where nombre='short';
+Query OK, 1 row affected (0.037 sec)
+
+MariaDB [t2]> select*from venta_detalle;
+Empty set (0.001 sec)
+
+MariaDB [t2]> 
