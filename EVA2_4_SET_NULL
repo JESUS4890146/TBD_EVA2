@@ -1,0 +1,164 @@
+[jisus@linuxjisus ~]$ sudo mysql
+[sudo] contraseña para jisus: 
+mysql: Deprecated program name. It will be removed in a future release, use '/usr/bin/mariadb' instead
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 3
+Server version: 12.3.2-MariaDB Arch Linux
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use t2;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [t2]> create table carrera(
+    -> id_carrera int not null key auto_increment,
+    -> nombre varchar(50) not null);
+Query OK, 0 rows affected (0.186 sec)
+
+MariaDB [t2]> create table estudiante(
+    -> id_estudiante int not null key auto_increment,
+    -> nombre varchar(50) not null);
+Query OK, 0 rows affected (0.388 sec)
+
+MariaDB [t2]> create table estudiante_carrera(
+    -> id_estudiante_carrera int not null key auto_increment,
+    -> id_carrera int not null,
+    -> id_estudiante int not null,
+    -> foreign key(id_carrera) references carrera(id_carrera),
+    -> on update cascade,
+    -> foreign key(id_estudiante) references estudiante(id_estudiante));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'on update cascade,
+foreign key(id_estudiante) references estudiante(id_estudi...' at line 6
+MariaDB [t2]> drop table estudiantes;
+ERROR 1051 (42S02): Unknown table 't2.estudiantes'
+MariaDB [t2]> drop table estudiante;
+Query OK, 0 rows affected (0.102 sec)
+
+MariaDB [t2]> create table estudiante( id_estudiante int not null key auto_increment, nombre varchar(50) not null, id_carrera int not null, foreign key (id_carrera) references (id_carrera),
+    -> on update in cascade,
+    -> on update in cascade);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '(id_carrera),
+on update in cascade,
+on update in cascade)' at line 1
+MariaDB [t2]> create table estudiante( id_estudiante int not null key auto_increment, nombre varchar(50) not null, id_carrera int not null, foreign key (id_carrera) references carrera (id_carrera), on update in cascade, on update in cascade);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'on update in cascade, on update in cascade)' at line 1
+MariaDB [t2]> create table estudiante( id_estudiante int not null key auto_increment, nombre varchar(50) not null, id_carrera int not null, foreign key (id_carrera) references carrera (id_carrera) on update in cascade  on update in cascade);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'in cascade  on update in cascade)' at line 1
+MariaDB [t2]> create table estudiante( id_estudiante int not null key auto_increment, nombre varchar(50) not null, id_carrera int not null, foreign key (id_carrera) references carrera (id_carrera) on update in cascade on update in cascade);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'in cascade on update in cascade)' at line 1
+MariaDB [t2]> create table estudiante( id_estudiante int not null key auto_increment, nombre varchar(50) not null, id_carrera int not null, foreign key (id_carrera) references carrera (id_carrera) on update in cascade on delete in cascade);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'in cascade on delete in cascade)' at line 1
+MariaDB [t2]> CREATE TABLE estudiante(     id_estudiante INT NOT NULL PRIMARY KEY AUTO_INCREMENT,     nombre VARCHAR(50) NOT NULL,     id_carrera INT NOT NULL,     FOREIGN KEY (id_carrera) REFERENCES carrera (id_carrera) ON UPDATE CASCADE ON DELETE CASCADE);
+Query OK, 0 rows affected (0.620 sec)
+
+MariaDB [t2]> insert into carrera(nombre)
+    -> values('sistemas'),('industrial'),('arqui');
+Query OK, 3 rows affected (0.060 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+MariaDB [t2]> select*from carrera;
++------------+------------+
+| id_carrera | nombre     |
++------------+------------+
+|          1 | sistemas   |
+|          2 | industrial |
+|          3 | arqui      |
++------------+------------+
+3 rows in set (0.001 sec)
+
+MariaDB [t2]> insert into estudiante(nombre,id_carrera)
+    -> values('jesus',1),('david',2),('luis',3);
+Query OK, 3 rows affected (0.021 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+MariaDB [t2]> select*from estudiante;
++---------------+--------+------------+
+| id_estudiante | nombre | id_carrera |
++---------------+--------+------------+
+|             1 | jesus  |          1 |
+|             2 | david  |          2 |
+|             3 | luis   |          3 |
++---------------+--------+------------+
+3 rows in set (0.001 sec)
+
+MariaDB [t2]> delete from estudiante 
+    -> where id_carrera=2;
+Query OK, 1 row affected (0.037 sec)
+
+MariaDB [t2]> create table cliente(
+    -> ^C
+    -> 
+[1]+  Detenido                   sudo mysql
+[jisus@linuxjisus ~]$ sudo mysql
+[sudo] contraseña para jisus: 
+mysql: Deprecated program name. It will be removed in a future release, use '/usr/bin/mariadb' instead
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 4
+Server version: 12.3.2-MariaDB Arch Linux
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> create table comida_favorita(
+    -> id_comida int not null key auto_autoincrement,
+    -> nombre varchcar(50) not null);
+ERROR 1046 (3D000): No database selected
+MariaDB [(none)]> use t2;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [t2]> create table comida_favorita( id_comida int not null key auto_autoincrement, nombre varchcar(50) not null);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' nombre varchcar(50) not null)' at line 1
+MariaDB [t2]> create table comida_favorita( id_comida int not null key auto_autoincrement, nombre varchar(50) not null);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' nombre varchar(50) not null)' at line 1
+MariaDB [t2]> create table comida_favorita( id_comida int not null key auto_autoincrement, nombre varchar(50));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' nombre varchar(50))' at line 1
+MariaDB [t2]> create table comida_favorita( id_comida int not null key auto_autoincrement, nombre varchar(50) not null);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' nombre varchar(50) not null)' at line 1
+MariaDB [t2]> create table comida_favorita (id_comida int not null key_autoincrement,nombre varchar(50) not null);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'nombre varchar(50) not null)' at line 1
+MariaDB [t2]> CREATE TABLE comida_favorita (    id_comida INT NOT NULL PRIMARY KEY AUTO_INCREMENT,    nombre VARCHAR(50) NOT NULL);
+Query OK, 0 rows affected (0.127 sec)
+
+MariaDB [t2]> create table cliente(
+    -> id_cliente int not null key_autoincrement,
+    -> nombre varchar(50) not null
+    -> id_comida
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '
+nombre varchar(50) not null
+id_comida' at line 2
+MariaDB [t2]> create table cliente( id_cliente int not null key_autoincrement, nombre varchar(50),
+    -> id_comida int not null,
+    -> foreign key (id_comida) references comida_favorita (id_comida) on delete set null,on update cascade);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' nombre varchar(50),
+id_comida int not null,
+foreign key (id_comida) referenc...' at line 1
+MariaDB [t2]> CREATE TABLE cliente (    id_cliente INT NOT NULL PRIMARY KEY AUTO_INCREMENT,    nombre VARCHAR(50) NOT NULL,    id_comida_favorita INT,    FOREIGN KEY (id_comida_favorita) REFERENCES comida_favorita (id_comida) ON DELETE SET NULL ON UPDATE CASCADE);
+ERROR 1050 (42S01): Table 'cliente' already exists
+MariaDB [t2]> show tables;
++-----------------+
+| Tables_in_t2    |
++-----------------+
+| carrera         |
+| cliente         |
+| comida_favorita |
+| estudiante      |
+| productos       |
+| venta_detalle   |
+| ventas          |
++-----------------+
+7 rows in set (0.001 sec)
+
+MariaDB [t2]> drop table cliente;
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails
+MariaDB [t2]> CREATE TABLE cliente_rest (    id_cliente INT NOT NULL PRIMARY KEY AUTO_INCREMENT,    nombre VARCHAR(50) NOT NULL,    id_comida_favorita INT,    FOREIGN KEY (id_comida_favorita) REFERENCES comida_favorita (id_comida) ON DELETE SET NULL ON UPDATE CASCADE);
+Query OK, 0 rows affected (0.171 sec)
+
+MariaDB [t2]>
