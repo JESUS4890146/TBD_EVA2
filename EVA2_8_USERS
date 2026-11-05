@@ -1,0 +1,589 @@
+jisus@linuxjisus ~]$ sudo mysql
+[sudo] contraseña para jisus: 
+mysql: Deprecated program name. It will be removed in a future release, use '/usr/bin/mariadb' instead
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 3
+Server version: 13.0.2-MariaDB Arch Linux
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> create database t3;
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [(none)]> sudo systemctl enable mariadb
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'sudo systemctl enable mariadb' at line 1
+MariaDB [(none)]> use t2;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [t2]> use mysql;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [mysql]> show tabls;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'tabls' at line 1
+MariaDB [mysql]> 
+MariaDB [mysql]> 
+MariaDB [mysql]> show tables;
++---------------------------+
+| Tables_in_mysql           |
++---------------------------+
+| column_stats              |
+| columns_priv              |
+| db                        |
+| event                     |
+| func                      |
+| general_log               |
+| global_priv               |
+| gtid_slave_pos            |
+| help_category             |
+| help_keyword              |
+| help_relation             |
+| help_topic                |
+| index_stats               |
+| innodb_index_stats        |
+| innodb_table_stats        |
+| plugin                    |
+| proc                      |
+| procs_priv                |
+| proxies_priv              |
+| roles_mapping             |
+| servers                   |
+| slow_log                  |
+| table_stats               |
+| tables_priv               |
+| time_zone                 |
+| time_zone_leap_second     |
+| time_zone_name            |
+| time_zone_transition      |
+| time_zone_transition_type |
+| transaction_registry      |
+| user                      |
++---------------------------+
+31 rows in set (0.001 sec)
+
+MariaDB [mysql]> desc user;
++------------------------+---------------------+------+-----+----------+-------+
+| Field                  | Type                | Null | Key | Default  | Extra |
++------------------------+---------------------+------+-----+----------+-------+
+| Host                   | char(255)           | NO   |     |          |       |
+| User                   | char(128)           | NO   |     |          |       |
+| Password               | longtext            | YES  |     | NULL     |       |
+| Select_priv            | varchar(1)          | YES  |     | NULL     |       |
+| Insert_priv            | varchar(1)          | YES  |     | NULL     |       |
+| Update_priv            | varchar(1)          | YES  |     | NULL     |       |
+| Delete_priv            | varchar(1)          | YES  |     | NULL     |       |
+| Create_priv            | varchar(1)          | YES  |     | NULL     |       |
+| Drop_priv              | varchar(1)          | YES  |     | NULL     |       |
+| Reload_priv            | varchar(1)          | YES  |     | NULL     |       |
+| Shutdown_priv          | varchar(1)          | YES  |     | NULL     |       |
+| Process_priv           | varchar(1)          | YES  |     | NULL     |       |
+| File_priv              | varchar(1)          | YES  |     | NULL     |       |
+| Grant_priv             | varchar(1)          | YES  |     | NULL     |       |
+| References_priv        | varchar(1)          | YES  |     | NULL     |       |
+| Index_priv             | varchar(1)          | YES  |     | NULL     |       |
+| Alter_priv             | varchar(1)          | YES  |     | NULL     |       |
+| Show_db_priv           | varchar(1)          | YES  |     | NULL     |       |
+| Super_priv             | varchar(1)          | YES  |     | NULL     |       |
+| Create_tmp_table_priv  | varchar(1)          | YES  |     | NULL     |       |
+| Lock_tables_priv       | varchar(1)          | YES  |     | NULL     |       |
+| Execute_priv           | varchar(1)          | YES  |     | NULL     |       |
+| Repl_slave_priv        | varchar(1)          | YES  |     | NULL     |       |
+| Repl_client_priv       | varchar(1)          | YES  |     | NULL     |       |
+| Create_view_priv       | varchar(1)          | YES  |     | NULL     |       |
+| Show_view_priv         | varchar(1)          | YES  |     | NULL     |       |
+| Create_routine_priv    | varchar(1)          | YES  |     | NULL     |       |
+| Alter_routine_priv     | varchar(1)          | YES  |     | NULL     |       |
+| Create_user_priv       | varchar(1)          | YES  |     | NULL     |       |
+| Event_priv             | varchar(1)          | YES  |     | NULL     |       |
+| Trigger_priv           | varchar(1)          | YES  |     | NULL     |       |
+| Create_tablespace_priv | varchar(1)          | YES  |     | NULL     |       |
+| Delete_history_priv    | varchar(1)          | YES  |     | NULL     |       |
+| ssl_type               | varchar(9)          | YES  |     | NULL     |       |
+| ssl_cipher             | longtext            | NO   |     |          |       |
+| x509_issuer            | longtext            | NO   |     |          |       |
+| x509_subject           | longtext            | NO   |     |          |       |
+| max_questions          | bigint(20) unsigned | NO   |     | 0        |       |
+| max_updates            | bigint(20) unsigned | NO   |     | 0        |       |
+| max_connections        | bigint(20) unsigned | NO   |     | 0        |       |
+| max_user_connections   | bigint(21)          | NO   |     | 0        |       |
+| plugin                 | longtext            | NO   |     |          |       |
+| authentication_string  | longtext            | NO   |     |          |       |
+| password_expired       | varchar(1)          | NO   |     |          |       |
+| is_role                | varchar(1)          | YES  |     | NULL     |       |
+| default_role           | longtext            | NO   |     |          |       |
+| max_statement_time     | decimal(12,6)       | NO   |     | 0.000000 |       |
++------------------------+---------------------+------+-----+----------+-------+
+47 rows in set (0.003 sec)
+
+MariaDB [mysql]> select*from user;
++------------+-------------+----------+-------------+-------------+-------------+-------------+-------------+-----------+-------------+---------------+--------------+-----------+------------+-----------------+------------+------------+--------------+------------+-----------------------+------------------+--------------+-----------------+------------------+------------------+----------------+---------------------+--------------------+------------------+------------+--------------+------------------------+---------------------+----------+------------+-------------+--------------+---------------+-------------+-----------------+----------------------+-----------------------+-----------------------+------------------+---------+--------------+--------------------+
+| Host       | User        | Password | Select_priv | Insert_priv | Update_priv | Delete_priv | Create_priv | Drop_priv | Reload_priv | Shutdown_priv | Process_priv | File_priv | Grant_priv | References_priv | Index_priv | Alter_priv | Show_db_priv | Super_priv | Create_tmp_table_priv | Lock_tables_priv | Execute_priv | Repl_slave_priv | Repl_client_priv | Create_view_priv | Show_view_priv | Create_routine_priv | Alter_routine_priv | Create_user_priv | Event_priv | Trigger_priv | Create_tablespace_priv | Delete_history_priv | ssl_type | ssl_cipher | x509_issuer | x509_subject | max_questions | max_updates | max_connections | max_user_connections | plugin                | authentication_string | password_expired | is_role | default_role | max_statement_time |
++------------+-------------+----------+-------------+-------------+-------------+-------------+-------------+-----------+-------------+---------------+--------------+-----------+------------+-----------------+------------+------------+--------------+------------+-----------------------+------------------+--------------+-----------------+------------------+------------------+----------------+---------------------+--------------------+------------------+------------+--------------+------------------------+---------------------+----------+------------+-------------+--------------+---------------+-------------+-----------------+----------------------+-----------------------+-----------------------+------------------+---------+--------------+--------------------+
+| localhost  | mariadb.sys |          | N           | N           | N           | N           | N           | N         | N           | N             | N            | N         | N          | N               | N          | N          | N            | N          | N                     | N                | N            | N               | N                | N                | N              | N                   | N                  | N                | N          | N            | N                      | N                   |          |            |             |              |             0 |           0 |               0 |                    0 | mysql_native_password |                       | Y                | N       |              |           0.000000 |
+| localhost  | root        | invalid  | Y           | Y           | Y           | Y           | Y           | Y         | Y           | Y             | Y            | Y         | Y          | Y               | Y          | Y          | Y            | Y          | Y                     | Y                | Y            | Y               | Y                | Y                | Y              | Y                   | Y                  | Y                | Y          | Y            | Y                      | Y                   |          |            |             |              |             0 |           0 |               0 |                    0 | mysql_native_password | invalid               | N                | N       |              |           0.000000 |
+| localhost  | mysql       | invalid  | Y           | Y           | Y           | Y           | Y           | Y         | Y           | Y             | Y            | Y         | Y          | Y               | Y          | Y          | Y            | Y          | Y                     | Y                | Y            | Y               | Y                | Y                | Y              | Y                   | Y                  | Y                | Y          | Y            | Y                      | Y                   |          |            |             |              |             0 |           0 |               0 |                    0 | mysql_native_password | invalid               | N                | N       |              |           0.000000 |
+|            | PUBLIC      |          | N           | N           | N           | N           | N           | N         | N           | N             | N            | N         | N          | N               | N          | N          | N            | N          | N                     | N                | N            | N               | N                | N                | N              | N                   | N                  | N                | N          | N            | N                      | N                   |          |            |             |              |             0 |           0 |               0 |                    0 |                       |                       | N                | Y       |              |           0.000000 |
+| localhost  |             |          | N           | N           | N           | N           | N           | N         | N           | N             | N            | N         | N          | N               | N          | N          | N            | N          | N                     | N                | N            | N               | N                | N                | N              | N                   | N                  | N                | N          | N            | N                      | N                   |          |            |             |              |             0 |           0 |               0 |                    0 |                       |                       | N                | N       |              |           0.000000 |
+| linuxjisus |             |          | N           | N           | N           | N           | N           | N         | N           | N             | N            | N         | N          | N               | N          | N          | N            | N          | N                     | N                | N            | N               | N                | N                | N              | N                   | N                  | N                | N          | N            | N                      | N                   |          |            |             |              |             0 |           0 |               0 |                    0 |                       |                       | N                | N       |              |           0.000000 |
++------------+-------------+----------+-------------+-------------+-------------+-------------+-------------+-----------+-------------+---------------+--------------+-----------+------------+-----------------+------------+------------+--------------+------------+-----------------------+------------------+--------------+-----------------+------------------+------------------+----------------+---------------------+--------------------+------------------+------------+--------------+------------------------+---------------------+----------+------------+-------------+--------------+---------------+-------------+-----------------+----------------------+-----------------------+-----------------------+------------------+---------+--------------+--------------------+
+6 rows in set (0.003 sec)
+
+MariaDB [mysql]> select host ,user from user;
++------------+-------------+
+| Host       | User        |
++------------+-------------+
+|            | PUBLIC      |
+| linuxjisus |             |
+| localhost  |             |
+| localhost  | mariadb.sys |
+| localhost  | mysql       |
+| localhost  | root        |
++------------+-------------+
+6 rows in set (0.263 sec)
+
+MariaDB [mysql]> create user 'prueba1'@'localhost'identified by'1234';
+Query OK, 0 rows affected (0.298 sec)
+
+MariaDB [mysql]> select host ,user from user;
++------------+-------------+
+| Host       | User        |
++------------+-------------+
+|            | PUBLIC      |
+| linuxjisus |             |
+| localhost  |             |
+| localhost  | mariadb.sys |
+| localhost  | mysql       |
+| localhost  | prueba1     |
+| localhost  | root        |
++------------+-------------+
+7 rows in set (0.002 sec)
+
+MariaDB [mysql]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| proyecto_tickets   |
+| repasoU1           |
+| sakila             |
+| sys                |
+| t1                 |
+| t1_copia           |
+| t2                 |
+| t3                 |
+| tbd_exa1           |
+| test               |
+| world              |
++--------------------+
+14 rows in set (0.001 sec)
+
+MariaDB [mysql]> 
+[1]+  Detenido                   sudo mysql
+[jisus@linuxjisus ~]$ sudo mysql
+[sudo] contraseña para jisus: 
+mysql: Deprecated program name. It will be removed in a future release, use '/usr/bin/mariadb' instead
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 4
+Server version: 13.0.2-MariaDB Arch Linux
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> \connect --mc prueba1@localhost;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'onnect --mc prueba1@localhost' at line 1
+MariaDB [(none)]> mariadb -u prueba1 -p
+    -> 
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'mariadb -u prueba1 -p' at line 1
+MariaDB [(none)]> exit;
+Bye
+[jisus@linuxjisus ~]$ mariadb -u prueba1 -p
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 5
+Server version: 13.0.2-MariaDB Arch Linux
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| test               |
++--------------------+
+2 rows in set (0.001 sec)
+
+MariaDB [(none)]> exit;
+Bye
+[jisus@linuxjisus ~]$ sudo mysql;
+mysql: Deprecated program name. It will be removed in a future release, use '/usr/bin/mariadb' instead
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 6
+Server version: 13.0.2-MariaDB Arch Linux
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| proyecto_tickets   |
+| repasoU1           |
+| sakila             |
+| sys                |
+| t1                 |
+| t1_copia           |
+| t2                 |
+| t3                 |
+| tbd_exa1           |
+| test               |
+| world              |
++--------------------+
+14 rows in set (0.001 sec)
+
+MariaDB [(none)]> grant all on t1,* to 'prueba1'@'localhost';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '* to 'prueba1'@'localhost'' at line 1
+MariaDB [(none)]> grant all on t1.* to 'prueba1'@'localhost';
+Query OK, 0 rows affected (0.284 sec)
+
+MariaDB [(none)]> exit;
+Bye
+[jisus@linuxjisus ~]$ mariadb -u prueba1 -p
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 7
+Server version: 13.0.2-MariaDB Arch Linux
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| t1                 |
+| test               |
++--------------------+
+3 rows in set (0.001 sec)
+
+MariaDB [(none)]> 
+MariaDB [(none)]> use t1;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [t1]> show tables;
++--------------------+
+| Tables_in_t1       |
++--------------------+
+| Persona            |
+| copia_Persona      |
+| copia_actor        |
+| cust               |
+| customer2          |
+| empleado           |
+| item               |
+| matricula          |
+| ordenes            |
+| persona_datos      |
+| persona_datos2     |
+| persona_modificada |
+| playera            |
+| tablaA             |
+| tablaB             |
+| vehiculo           |
+| vehiculo2          |
++--------------------+
+17 rows in set (0.001 sec)
+
+MariaDB [t1]> create database xxxx;
+ERROR 1044 (42000): Access denied for user 'prueba1'@'localhost' to database 'xxxx'
+MariaDB [t1]> exit;
+Bye
+[jisus@linuxjisus ~]$ sudo mysql;
+mysql: Deprecated program name. It will be removed in a future release, use '/usr/bin/mariadb' instead
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 8
+Server version: 13.0.2-MariaDB Arch Linux
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> create user 'prueba2'@'localhost' identified by '1234';
+Query OK, 0 rows affected (0.269 sec)
+
+MariaDB [(none)]> grant all on t1.item to 'prueba2'@'localhost';
+Query OK, 0 rows affected (0.046 sec)
+
+MariaDB [(none)]> exit;
+Bye
+[jisus@linuxjisus ~]$ mariadb -u prueba2 -p
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 9
+Server version: 13.0.2-MariaDB Arch Linux
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use t1;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [t1]> show tables;
++--------------+
+| Tables_in_t1 |
++--------------+
+| item         |
++--------------+
+1 row in set (0.001 sec)
+
+MariaDB [t1]> create table algo(int id not null);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'int id not null)' at line 1
+MariaDB [t1]> create table algo(id int not null);
+ERROR 1142 (42000): CREATE command denied to user 'prueba2'@'localhost' for table `t1`.`algo`
+MariaDB [t1]> select*from item;
++---------+-------------+-------------------+
+| id_item | item_number | item_name         |
++---------+-------------+-------------------+
+|       1 | 2010-0050   | formed handlebar  |
+|       2 | 1000-1      | 20 in. bicycle    |
+|       3 | 1002-1      | 24 in. bicycle    |
+|       4 | 1001-1      | 26 in. bicycle    |
+|       5 | 1003-1      | 20 in. bicycle    |
+|       6 | 3961-1041   | tire tube, 26 in. |
+|       7 | 3965-1050   | spoke reflector   |
++---------+-------------+-------------------+
+7 rows in set (0.001 sec)
+
+MariaDB [t1]> desc item;
++-------------+-------------+------+-----+---------+----------------+
+| Field       | Type        | Null | Key | Default | Extra          |
++-------------+-------------+------+-----+---------+----------------+
+| id_item     | int(11)     | NO   | PRI | NULL    | auto_increment |
+| item_number | varchar(50) | NO   |     | NULL    |                |
+| item_name   | varchar(50) | NO   |     | NULL    |                |
++-------------+-------------+------+-----+---------+----------------+
+3 rows in set (0.001 sec)
+
+MariaDB [t1]> insert into item(item_number,item_name)
+    -> value('123','456');
+Query OK, 1 row affected (0.286 sec)
+
+MariaDB [t1]> select*from item;
++---------+-------------+-------------------+
+| id_item | item_number | item_name         |
++---------+-------------+-------------------+
+|       1 | 2010-0050   | formed handlebar  |
+|       2 | 1000-1      | 20 in. bicycle    |
+|       3 | 1002-1      | 24 in. bicycle    |
+|       4 | 1001-1      | 26 in. bicycle    |
+|       5 | 1003-1      | 20 in. bicycle    |
+|       6 | 3961-1041   | tire tube, 26 in. |
+|       7 | 3965-1050   | spoke reflector   |
+|       8 | 123         | 456               |
++---------+-------------+-------------------+
+8 rows in set (0.001 sec)
+
+MariaDB [t1]> exit;
+Bye
+[jisus@linuxjisus ~]$ sudo mysql;
+[sudo] contraseña para jisus: 
+mysql: Deprecated program name. It will be removed in a future release, use '/usr/bin/mariadb' instead
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 10
+Server version: 13.0.2-MariaDB Arch Linux
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> create user 'prueba3'@'localhost';
+Query OK, 0 rows affected (0.060 sec)
+
+MariaDB [(none)]> grant select(item_number) on t1.item to 'prueba3'@'localhost';
+Query OK, 0 rows affected (0.279 sec)
+
+MariaDB [(none)]> exit;
+Bye
+[jisus@linuxjisus ~]$ mariadb -u prueba3 -p
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 11
+Server version: 13.0.2-MariaDB Arch Linux
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| t1                 |
+| test               |
++--------------------+
+3 rows in set (0.001 sec)
+
+MariaDB [(none)]> use t1;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [t1]> show tables;
++--------------+
+| Tables_in_t1 |
++--------------+
+| item         |
++--------------+
+1 row in set (0.001 sec)
+
+MariaDB [t1]> desc item;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| item_number | varchar(50) | NO   |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+1 row in set (0.001 sec)
+
+MariaDB [t1]> select item_number from item;
++-------------+
+| item_number |
++-------------+
+| 2010-0050   |
+| 1000-1      |
+| 1002-1      |
+| 1001-1      |
+| 1003-1      |
+| 3961-1041   |
+| 3965-1050   |
+| 123         |
++-------------+
+8 rows in set (0.001 sec)
+
+MariaDB [t1]> insert into item(item_number)
+    -> value('123');
+ERROR 1142 (42000): INSERT command denied to user 'prueba3'@'localhost' for table `t1`.`item`
+MariaDB [t1]> exit;
+Bye
+[jisus@linuxjisus ~]$ sudo mysql;
+[sudo] contraseña para jisus: 
+mysql: Deprecated program name. It will be removed in a future release, use '/usr/bin/mariadb' instead
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 12
+Server version: 13.0.2-MariaDB Arch Linux
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use mysql;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [mysql]> desc user;
++------------------------+---------------------+------+-----+----------+-------+
+| Field                  | Type                | Null | Key | Default  | Extra |
++------------------------+---------------------+------+-----+----------+-------+
+| Host                   | char(255)           | NO   |     |          |       |
+| User                   | char(128)           | NO   |     |          |       |
+| Password               | longtext            | YES  |     | NULL     |       |
+| Select_priv            | varchar(1)          | YES  |     | NULL     |       |
+| Insert_priv            | varchar(1)          | YES  |     | NULL     |       |
+| Update_priv            | varchar(1)          | YES  |     | NULL     |       |
+| Delete_priv            | varchar(1)          | YES  |     | NULL     |       |
+| Create_priv            | varchar(1)          | YES  |     | NULL     |       |
+| Drop_priv              | varchar(1)          | YES  |     | NULL     |       |
+| Reload_priv            | varchar(1)          | YES  |     | NULL     |       |
+| Shutdown_priv          | varchar(1)          | YES  |     | NULL     |       |
+| Process_priv           | varchar(1)          | YES  |     | NULL     |       |
+| File_priv              | varchar(1)          | YES  |     | NULL     |       |
+| Grant_priv             | varchar(1)          | YES  |     | NULL     |       |
+| References_priv        | varchar(1)          | YES  |     | NULL     |       |
+| Index_priv             | varchar(1)          | YES  |     | NULL     |       |
+| Alter_priv             | varchar(1)          | YES  |     | NULL     |       |
+| Show_db_priv           | varchar(1)          | YES  |     | NULL     |       |
+| Super_priv             | varchar(1)          | YES  |     | NULL     |       |
+| Create_tmp_table_priv  | varchar(1)          | YES  |     | NULL     |       |
+| Lock_tables_priv       | varchar(1)          | YES  |     | NULL     |       |
+| Execute_priv           | varchar(1)          | YES  |     | NULL     |       |
+| Repl_slave_priv        | varchar(1)          | YES  |     | NULL     |       |
+| Repl_client_priv       | varchar(1)          | YES  |     | NULL     |       |
+| Create_view_priv       | varchar(1)          | YES  |     | NULL     |       |
+| Show_view_priv         | varchar(1)          | YES  |     | NULL     |       |
+| Create_routine_priv    | varchar(1)          | YES  |     | NULL     |       |
+| Alter_routine_priv     | varchar(1)          | YES  |     | NULL     |       |
+| Create_user_priv       | varchar(1)          | YES  |     | NULL     |       |
+| Event_priv             | varchar(1)          | YES  |     | NULL     |       |
+| Trigger_priv           | varchar(1)          | YES  |     | NULL     |       |
+| Create_tablespace_priv | varchar(1)          | YES  |     | NULL     |       |
+| Delete_history_priv    | varchar(1)          | YES  |     | NULL     |       |
+| ssl_type               | varchar(9)          | YES  |     | NULL     |       |
+| ssl_cipher             | longtext            | NO   |     |          |       |
+| x509_issuer            | longtext            | NO   |     |          |       |
+| x509_subject           | longtext            | NO   |     |          |       |
+| max_questions          | bigint(20) unsigned | NO   |     | 0        |       |
+| max_updates            | bigint(20) unsigned | NO   |     | 0        |       |
+| max_connections        | bigint(20) unsigned | NO   |     | 0        |       |
+| max_user_connections   | bigint(21)          | NO   |     | 0        |       |
+| plugin                 | longtext            | NO   |     |          |       |
+| authentication_string  | longtext            | NO   |     |          |       |
+| password_expired       | varchar(1)          | NO   |     |          |       |
+| is_role                | varchar(1)          | YES  |     | NULL     |       |
+| default_role           | longtext            | NO   |     |          |       |
+| max_statement_time     | decimal(12,6)       | NO   |     | 0.000000 |       |
++------------------------+---------------------+------+-----+----------+-------+
+47 rows in set (0.003 sec)
+
+MariaDB [mysql]> select host,user from user;
++------------+-------------+
+| Host       | User        |
++------------+-------------+
+|            | PUBLIC      |
+| linuxjisus |             |
+| localhost  |             |
+| localhost  | mariadb.sys |
+| localhost  | mysql       |
+| localhost  | prueba1     |
+| localhost  | prueba2     |
+| localhost  | prueba3     |
+| localhost  | root        |
++------------+-------------+
+9 rows in set (0.002 sec)
+
+MariaDB [mysql]> select*from user where User='prueba3';
++-----------+---------+----------+-------------+-------------+-------------+-------------+-------------+-----------+-------------+---------------+--------------+-----------+------------+-----------------+------------+------------+--------------+------------+-----------------------+------------------+--------------+-----------------+------------------+------------------+----------------+---------------------+--------------------+------------------+------------+--------------+------------------------+---------------------+----------+------------+-------------+--------------+---------------+-------------+-----------------+----------------------+-----------------------+-----------------------+------------------+---------+--------------+--------------------+
+| Host      | User    | Password | Select_priv | Insert_priv | Update_priv | Delete_priv | Create_priv | Drop_priv | Reload_priv | Shutdown_priv | Process_priv | File_priv | Grant_priv | References_priv | Index_priv | Alter_priv | Show_db_priv | Super_priv | Create_tmp_table_priv | Lock_tables_priv | Execute_priv | Repl_slave_priv | Repl_client_priv | Create_view_priv | Show_view_priv | Create_routine_priv | Alter_routine_priv | Create_user_priv | Event_priv | Trigger_priv | Create_tablespace_priv | Delete_history_priv | ssl_type | ssl_cipher | x509_issuer | x509_subject | max_questions | max_updates | max_connections | max_user_connections | plugin                | authentication_string | password_expired | is_role | default_role | max_statement_time |
++-----------+---------+----------+-------------+-------------+-------------+-------------+-------------+-----------+-------------+---------------+--------------+-----------+------------+-----------------+------------+------------+--------------+------------+-----------------------+------------------+--------------+-----------------+------------------+------------------+----------------+---------------------+--------------------+------------------+------------+--------------+------------------------+---------------------+----------+------------+-------------+--------------+---------------+-------------+-----------------+----------------------+-----------------------+-----------------------+------------------+---------+--------------+--------------------+
+| localhost | prueba3 |          | N           | N           | N           | N           | N           | N         | N           | N             | N            | N         | N          | N               | N          | N          | N            | N          | N                     | N                | N            | N               | N                | N                | N              | N                   | N                  | N                | N          | N            | N                      | N                   |          |            |             |              |             0 |           0 |               0 |                    0 | mysql_native_password |                       | N                | N       |              |           0.000000 |
++-----------+---------+----------+-------------+-------------+-------------+-------------+-------------+-----------+-------------+---------------+--------------+-----------+------------+-----------------+------------+------------+--------------+------------+-----------------------+------------------+--------------+-----------------+------------------+------------------+----------------+---------------------+--------------------+------------------+------------+--------------+------------------------+---------------------+----------+------------+-------------+--------------+---------------+-------------+-----------------+----------------------+-----------------------+-----------------------+------------------+---------+--------------+--------------------+
+1 row in set (0.002 sec)
+
+MariaDB [mysql]> drop user 'prueba3'@'localhost';
+Query OK, 0 rows affected (0.270 sec)
+
+MariaDB [mysql]>
