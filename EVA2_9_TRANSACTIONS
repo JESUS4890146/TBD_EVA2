@@ -1,0 +1,428 @@
+[jisus@linuxjisus ~]$ sudo mysql
+[sudo] contraseña para jisus: 
+mysql: Deprecated program name. It will be removed in a future release, use '/usr/bin/mariadb' instead
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 3
+Server version: 13.0.2-MariaDB Arch Linux
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> create role 'supervisores';
+Query OK, 0 rows affected (0.371 sec)
+
+MariaDB [(none)]> grant select on t1.item to 'supervisor';
+ERROR 1133 (28000): Can't find any matching row in the user table
+MariaDB [(none)]> use t1;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [t1]> show tables;
++--------------------+
+| Tables_in_t1       |
++--------------------+
+| Persona            |
+| copia_Persona      |
+| copia_actor        |
+| cust               |
+| customer2          |
+| empleado           |
+| item               |
+| matricula          |
+| ordenes            |
+| persona_datos      |
+| persona_datos2     |
+| persona_modificada |
+| playera            |
+| tablaA             |
+| tablaB             |
+| vehiculo           |
+| vehiculo2          |
++--------------------+
+17 rows in set (0.001 sec)
+
+MariaDB [t1]> grant select on t1.item to 'supervisor';
+ERROR 1133 (28000): Can't find any matching row in the user table
+MariaDB [t1]> grant select on t1.cust to 'supervisor';
+ERROR 1133 (28000): Can't find any matching row in the user table
+MariaDB [t1]> CREATE USER 'supervisor'@'localhost' IDENTIFIED BY '123';
+Query OK, 0 rows affected (0.138 sec)
+
+MariaDB [t1]> GRANT SELECT ON t1.item TO 'supervisor'@'localhost';
+Query OK, 0 rows affected (0.216 sec)
+
+MariaDB [t1]> exit;
+Bye
+[jisus@linuxjisus ~]$ mariadb -u supervisor -p
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 7
+Server version: 13.0.2-MariaDB Arch Linux
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| t1                 |
+| test               |
++--------------------+
+3 rows in set (0.000 sec)
+
+MariaDB [(none)]> show tables;
+ERROR 1046 (3D000): No database selected
+MariaDB [(none)]> use t1;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [t1]> show tables;
++--------------+
+| Tables_in_t1 |
++--------------+
+| item         |
++--------------+
+1 row in set (0.001 sec)
+
+MariaDB [t1]> exit;
+Bye
+[jisus@linuxjisus ~]$ sudo mysql
+[sudo] contraseña para jisus: 
+Lo siento, pruebe otra vez.
+[sudo] contraseña para jisus: 
+mysql: Deprecated program name. It will be removed in a future release, use '/usr/bin/mariadb' instead
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 8
+Server version: 13.0.2-MariaDB Arch Linux
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> create role 'administrativo'@'localhost';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '@'localhost'' at line 1
+MariaDB [(none)]> 
+MariaDB [(none)]> create role 'administrativo'@'localhost';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '@'localhost'' at line 1
+MariaDB [(none)]> CREATE ROLE 'administrativo';
+Query OK, 0 rows affected (0.021 sec)
+
+MariaDB [(none)]> GRANT 'administrativo' TO 'tu_usuario'@'localhost';
+ERROR 1133 (28000): Can't find any matching row in the user table
+MariaDB [(none)]> GRANT 'administrativo' TO 'administrativo'@'localhost';
+ERROR 1133 (28000): Can't find any matching row in the user table
+MariaDB [(none)]> exit;
+Bye
+[jisus@linuxjisus ~]$ sudo mysql;
+mysql: Deprecated program name. It will be removed in a future release, use '/usr/bin/mariadb' instead
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 9
+Server version: 13.0.2-MariaDB Arch Linux
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> create user 'usuario_rol2'@'localhost';
+Query OK, 0 rows affected (0.026 sec)
+
+MariaDB [(none)]> grant 'administrativos'@'localhost' to 'usuario_rol2'@'localhost';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '@'localhost' to 'usuario_rol2'@'localhost'' at line 1
+MariaDB [(none)]> grant 'administrativos' to 'usuario_rol2'@'localhost';
+ERROR 1959 (OP000): Invalid role specification `administrativos`
+MariaDB [(none)]> grant 'administrativos' to 'usuario_rol2'@'localhost';
+ERROR 1959 (OP000): Invalid role specification `administrativos`
+MariaDB [(none)]> show variables like 'activate_all_roles_on_login';
+Empty set (0.001 sec)
+
+MariaDB [(none)]> exit;
+Bye
+[jisus@linuxjisus ~]$ sudo mysql;
+mysql: Deprecated program name. It will be removed in a future release, use '/usr/bin/mariadb' instead
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 10
+Server version: 13.0.2-MariaDB Arch Linux
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> exit;
+Bye
+[jisus@linuxjisus ~]$ mariadb -u administrativos -p
+Enter password: 
+ERROR 1045 (28000): Access denied for user 'administrativos'@'localhost' (using password: YES)
+[jisus@linuxjisus ~]$ mariadb -u administrativos -p
+Enter password: 
+ERROR 1045 (28000): Access denied for user 'administrativos'@'localhost' (using password: YES)
+[jisus@linuxjisus ~]$ mariadb -u administrativos -p
+Enter password: 
+ERROR 1045 (28000): Access denied for user 'administrativos'@'localhost' (using password: NO)
+[jisus@linuxjisus ~]$ mariadb -u administrativos -p 
+Enter password: 
+ERROR 1045 (28000): Access denied for user 'administrativos'@'localhost' (using password: YES)
+[jisus@linuxjisus ~]$ mariadb -u administrativos -p 
+Enter password: 
+ERROR 1045 (28000): Access denied for user 'administrativos'@'localhost' (using password: YES)
+[jisus@linuxjisus ~]$ mariadb -u supervisor -p
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 16
+Server version: 13.0.2-MariaDB Arch Linux
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| t1                 |
+| test               |
++--------------------+
+3 rows in set (0.001 sec)
+
+MariaDB [(none)]> exit;
+Bye
+[jisus@linuxjisus ~]$ sudo mysql;
+[sudo] contraseña para jisus: 
+mysql: Deprecated program name. It will be removed in a future release, use '/usr/bin/mariadb' instead
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 17
+Server version: 13.0.2-MariaDB Arch Linux
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use t2;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [t2]> show tables;
++-----------------+
+| Tables_in_t2    |
++-----------------+
+| carrera         |
+| cliente         |
+| cliente_rest    |
+| comida_favorita |
+| estudiante      |
+| productos       |
+| venta_detalle   |
+| ventas          |
++-----------------+
+8 rows in set (0.001 sec)
+
+MariaDB [t2]> desc ventas;
++-------------+---------+------+-----+---------+----------------+
+| Field       | Type    | Null | Key | Default | Extra          |
++-------------+---------+------+-----+---------+----------------+
+| id_venta    | int(11) | NO   | PRI | NULL    | auto_increment |
+| id_cliente  | int(11) | NO   | MUL | NULL    |                |
+| fecha_venta | date    | YES  |     | NULL    |                |
++-------------+---------+------+-----+---------+----------------+
+3 rows in set (0.002 sec)
+
+MariaDB [t2]> select*from producto;
+ERROR 1146 (42S02): Table 't2.producto' doesn't exist
+MariaDB [t2]> select*from productos;
++-------------+----------+--------+--------+
+| id_producto | nombre   | precio | unidad |
++-------------+----------+--------+--------+
+|           1 | playera  |   5000 | pieza  |
+|           2 | pantalon |   2000 | pieza  |
+|           4 | tenis    |   9099 | pares  |
+|           7 | short    |   1000 | pieza  |
++-------------+----------+--------+--------+
+4 rows in set (0.037 sec)
+
+MariaDB [t2]> selec*frim cliente;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'selec*frim cliente' at line 1
+MariaDB [t2]> select*from productos;
++-------------+----------+--------+--------+
+| id_producto | nombre   | precio | unidad |
++-------------+----------+--------+--------+
+|           1 | playera  |   5000 | pieza  |
+|           2 | pantalon |   2000 | pieza  |
+|           4 | tenis    |   9099 | pares  |
+|           7 | short    |   1000 | pieza  |
++-------------+----------+--------+--------+
+4 rows in set (0.001 sec)
+
+MariaDB [t2]> select * from venta_detalle;
+Empty set (0.001 sec)
+
+MariaDB [t2]> insert into ventas(id_cliente,fecha_venta)
+    -> value(1,'2026-11-05');
+Query OK, 1 row affected (0.031 sec)
+
+MariaDB [t2]> select *from ventas;
++----------+------------+-------------+
+| id_venta | id_cliente | fecha_venta |
++----------+------------+-------------+
+|        5 |          1 | 2026-11-05  |
++----------+------------+-------------+
+1 row in set (0.001 sec)
+
+MariaDB [t2]> select *from venta_detalle
+    -> where id_venta=7;
+Empty set (0.001 sec)
+
+MariaDB [t2]> start transaction;
+Query OK, 0 rows affected (0.000 sec)
+
+MariaDB [t2]> insert into venta(id_cliente,fecha_venta)
+    -> value(5,'2026-11-11');
+ERROR 1146 (42S02): Table 't2.venta' doesn't exist
+MariaDB [t2]> start transaction;
+Query OK, 0 rows affected (0.000 sec)
+
+MariaDB [t2]> insert into ventas(id_cliente,fecha_venta) value(5,'2026-11-11');
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`t2`.`ventas`, CONSTRAINT `1` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`) ON DELETE CASCADE ON UPDATE CASCADE)
+MariaDB [t2]> start transaction;
+Query OK, 0 rows affected (0.001 sec)
+
+MariaDB [t2]> insert into ventas(id_cliente,fecha_venta) value(5,'2026-11-11');
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`t2`.`ventas`, CONSTRAINT `1` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`) ON DELETE CASCADE ON UPDATE CASCADE)
+MariaDB [t2]> select*from cliente;
++------------+--------+-----------+------------+
+| id_cliente | nombre | apellidos | fecha_nac  |
++------------+--------+-----------+------------+
+|          1 | pedro  | paramo    | 1950-10-10 |
+|          6 | juan   | meza      | 1979-05-06 |
++------------+--------+-----------+------------+
+2 rows in set (0.001 sec)
+
+MariaDB [t2]> start transaction;
+Query OK, 0 rows affected (0.000 sec)
+
+MariaDB [t2]> insert into ventas(id_cliente,fecha_venta) value(6,'2026-11-11');
+Query OK, 1 row affected (0.000 sec)
+
+MariaDB [t2]> insert into venta_detalle(id_venta,id_producto,cantidad) value(8,9,9,);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ')' at line 1
+MariaDB [t2]> insert into venta_detalle(id_venta,id_producto,cantidad) value(8,9,9);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`t2`.`venta_detalle`, CONSTRAINT `2` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id_producto`) ON DELETE CASCADE ON UPDATE CASCADE)
+MariaDB [t2]> rollback;
+Query OK, 0 rows affected (0.000 sec)
+
+MariaDB [t2]> select*from venta;
+ERROR 1146 (42S02): Table 't2.venta' doesn't exist
+MariaDB [t2]> select*from ventas;
++----------+------------+-------------+
+| id_venta | id_cliente | fecha_venta |
++----------+------------+-------------+
+|        5 |          1 | 2026-11-05  |
++----------+------------+-------------+
+1 row in set (0.000 sec)
+
+MariaDB [t2]> start transaction ;
+Query OK, 0 rows affected (0.000 sec)
+
+MariaDB [t2]> select*from cliente;
++------------+--------+-----------+------------+
+| id_cliente | nombre | apellidos | fecha_nac  |
++------------+--------+-----------+------------+
+|          1 | pedro  | paramo    | 1950-10-10 |
+|          6 | juan   | meza      | 1979-05-06 |
++------------+--------+-----------+------------+
+2 rows in set (0.001 sec)
+
+MariaDB [t2]> insert into cliente(nombre,apellidos,fecha_nac)
+    -> value('xxxx','xxxx','1960-7-11');
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [t2]> select*from cliente;
++------------+--------+-----------+------------+
+| id_cliente | nombre | apellidos | fecha_nac  |
++------------+--------+-----------+------------+
+|          1 | pedro  | paramo    | 1950-10-10 |
+|          6 | juan   | meza      | 1979-05-06 |
+|          8 | xxxx   | xxxx      | 1960-07-11 |
++------------+--------+-----------+------------+
+3 rows in set (0.001 sec)
+
+MariaDB [t2]> commit;
+Query OK, 0 rows affected (0.037 sec)
+
+MariaDB [t2]> start transaction;
+Query OK, 0 rows affected (0.000 sec)
+
+MariaDB [t2]> insert into cliente(nombre,apellidos,fecha_nac) value('xxxx','xxxxxx','1960-7-11');
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [t2]> select*from cliente;
++------------+--------+-----------+------------+
+| id_cliente | nombre | apellidos | fecha_nac  |
++------------+--------+-----------+------------+
+|          1 | pedro  | paramo    | 1950-10-10 |
+|          6 | juan   | meza      | 1979-05-06 |
+|          8 | xxxx   | xxxx      | 1960-07-11 |
+|          9 | xxxx   | xxxxxx    | 1960-07-11 |
++------------+--------+-----------+------------+
+4 rows in set (0.001 sec)
+
+MariaDB [t2]> rollback;
+Query OK, 0 rows affected (0.000 sec)
+
+MariaDB [t2]> select*from cliente;
++------------+--------+-----------+------------+
+| id_cliente | nombre | apellidos | fecha_nac  |
++------------+--------+-----------+------------+
+|          1 | pedro  | paramo    | 1950-10-10 |
+|          6 | juan   | meza      | 1979-05-06 |
+|          8 | xxxx   | xxxx      | 1960-07-11 |
++------------+--------+-----------+------------+
+3 rows in set (0.001 sec)
+
+[jisus@linuxjisus ~]$ sudo mysql;
+[sudo] contraseña para jisus: 
+mysql: Deprecated program name. It will be removed in a future release, use '/usr/bin/mariadb' instead
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 18
+Server version: 13.0.2-MariaDB Arch Linux
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use t1;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [t1]> use t2;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [t2]> select*from cliente;
++------------+--------+-----------+------------+
+| id_cliente | nombre | apellidos | fecha_nac  |
++------------+--------+-----------+------------+
+|          1 | pedro  | paramo    | 1950-10-10 |
+|          6 | juan   | meza      | 1979-05-06 |
++------------+--------+-----------+------------+
+2 rows in set (0.001 sec)
+
+MariaDB [t2]> select*from cliente;
++------------+--------+-----------+------------+
+| id_cliente | nombre | apellidos | fecha_nac  |
++------------+--------+-----------+------------+
+|          1 | pedro  | paramo    | 1950-10-10 |
+|          6 | juan   | meza      | 1979-05-06 |
+|          8 | xxxx   | xxxx      | 1960-07-11 |
++------------+--------+-----------+------------+
+3 rows in set (0.001 sec)
+
+MariaDB [t2]>
